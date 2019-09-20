@@ -12,15 +12,24 @@ import random
 
 print('\nGenerate Submission!\n')
 
-df = pd.read_csv("data/train.csv")
+## Choose to generate submission from training or test set
+# df = pd.read_csv("data/train.csv")
+df = pd.read_csv("data/test.csv")
 
 ## Drop all columns but PassengerId, Survived, Pclass, Sex, Age
 df = df[['PassengerId', 'Pclass', 'Sex', 'Age']]
 
 ## Assume women, children, and First Class passengers survived. How accurate is this in the training set?
 def survival_critera(row):
-    ## For people in steerage, predict only half the female population (including female children) survived
-    if (row['Pclass']==3) & (row['Sex']=="female"):
+    ## For passengers in steerage, predict only 1/3 of the children surivved
+    if (row['Pclass']==3) & (row['Age']<19):
+        steerage_child_survival_probability = random.randint(0, 2)
+        if 1==steerage_child_survival_probability:
+            return 1
+        else:
+            return 0
+    ## For passengers in steerage, predict only half the adult female population survived
+    elif (row['Pclass']==3) & (row['Sex']=="female") & (row['Age']>18):
         return random.randint(0, 1)
     elif (row['Sex']=="female") | (row['Age']<19):
         return 1
@@ -34,4 +43,6 @@ print(df.head())
 df = df[['PassengerId', 'Survived']]
 print(df.head())
 
-df.to_csv(r'submission-train/train-sub01.csv', index = None, header=True)
+## Choose output destination
+# df.to_csv(r'submission-train/train-sub03.csv', index = None, header=True)
+df.to_csv(r'submission/titanic-sub04.csv', index = None, header=True)

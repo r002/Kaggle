@@ -11,7 +11,7 @@
 
 import pandas as pd
 
-submission = pd.read_csv("submission-train/train-sub01.csv")
+submission = pd.read_csv("submission-train/train-sub03.csv")
 answers = pd.read_csv("data/train-answers.csv")
 
 ## Evaluate the accuracy of the submission against the training dataset (the answers)
