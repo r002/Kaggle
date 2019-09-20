@@ -12,7 +12,7 @@ import random
 
 print('\nGenerate Submission!\n')
 
-df = pd.read_csv("data/test.csv")
+df = pd.read_csv("data/train.csv")
 
 ## Drop all columns but PassengerId, Survived, Pclass, Sex, Age
 df = df[['PassengerId', 'Pclass', 'Sex', 'Age']]
@@ -34,4 +34,4 @@ print(df.head())
 df = df[['PassengerId', 'Survived']]
 print(df.head())
 
-df.to_csv(r'submission/titanic-sub03.csv', index = None, header=True)
+df.to_csv(r'submission-train/train-sub01.csv', index = None, header=True)
