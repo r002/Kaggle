@@ -12,24 +12,25 @@ import random
 import time
 
 class C:
-    seed = -1
+    SEED = -1
+    CHILD_AGE = 15
 
 
 ## Assume women and children survived. How accurate is this in the training set?
 def survival_critera(row):
     ## For passengers in steerage, predict only 1/3 of the children surivved
-    C.seed = time.time()
-    random.seed(C.seed)
-    if (row['Pclass']==3) & (row['Age']<19):
+    C.SEED = time.time()
+    random.seed(C.SEED)
+    if (row['Pclass']==3) & (row['Age']<=C.CHILD_AGE):
         steerage_child_survival_probability = random.randint(0, 2)
         if 1==steerage_child_survival_probability:
             return 1
         else:
             return 0
     ## For passengers in steerage, predict only half the adult female population survived
-    elif (row['Pclass']==3) & (row['Sex']=="female") & (row['Age']>18):
+    elif (row['Pclass']==3) & (row['Sex']=="female") & (row['Age']>C.CHILD_AGE):
         return random.randint(0, 1)
-    elif (row['Sex']=="female") | (row['Age']<19):
+    elif (row['Sex']=="female") | (row['Age']<=C.CHILD_AGE):
         return 1
     else:
         return 0
@@ -82,7 +83,7 @@ def run_training_analysis(df):
     print(f"Correct Predictions: {no_correct}")
     print(f"Training Accuracy: {accuracy}")
     print(f"Total Rows: {total}")
-    print(f"Seed: {C.seed}\n")
+    print(f"Seed: {C.SEED}\n")
 
 #####################################################################
 
