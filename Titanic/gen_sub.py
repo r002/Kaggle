@@ -12,14 +12,14 @@ import random
 import time
 
 class C:
-    SEED = -1
+    SEED = time.time()
+    # SEED = 1569370095.0708084  # Yields 0.8092 accuracy against training set; 721 correct predictions
     CHILD_AGE = 15
 
 
 ## Assume women and children survived. How accurate is this in the training set?
 def survival_critera(row):
     ## For passengers in steerage, predict only 1/3 of the children surivved
-    C.SEED = time.time()
     random.seed(C.SEED)
     if (row['Pclass']==3) & (row['Age']<=C.CHILD_AGE):
         steerage_child_survival_probability = random.randint(0, 2)
@@ -81,8 +81,8 @@ def run_training_analysis(df):
 
     print("*************")
     print(f"Correct Predictions: {no_correct}")
-    print(f"Training Accuracy: {accuracy}")
     print(f"Total Rows: {total}")
+    print(f"Training Accuracy: {accuracy}")
     print(f"Seed: {C.SEED}\n")
 
 #####################################################################
