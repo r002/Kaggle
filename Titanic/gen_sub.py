@@ -20,17 +20,32 @@ class Algo:
         # SEED = 1569370095.0708084  # Yields 0.8092 accuracy against training set; 721 correct predictions
         self.CHILD_AGE = 15
 
-        ## Build a table of all of the surviving ticket numbers from the training set
-        self.df_train = pd.read_csv("data/train.csv")
-        # surviving_tickets = df_train[df_train['Survived']==1]
-        self.df_train = self.df_train[['Ticket', 'Survived']]
+        ## Build a table of all tickets with FOUR or more passengers. Predict these people all perished
+        ## For the 'body of knowledge'-- combine all of the ticket numbers from the training set with the test set
 
-    def check_if_surviving_ticket(self, ticketNo):
-        df0 = self.df_train[self.df_train['Ticket'].str.contains(ticketNo)]
-        if df0.shape[0]>0:
-            return df0.iloc[0]['Survived']
+        df_train_tickets = pd.read_csv("data/train.csv")
+        df_train_tickets = df_train_tickets[['Ticket']]
+        df_test_tickets = pd.read_csv("data/test.csv")
+        df_test_tickets = df_test_tickets[['Ticket']]
+        df_all_tickets = pd.concat([df_train_tickets, df_test_tickets])
+        self.v = df_all_tickets.Ticket.value_counts()
+
+        # group4 = df_all_tickets[df_all_tickets.Ticket.isin(v.index[v.gt(4)])]
+        # self.df_train = self.df_train[self.df_train['Survived']==1]
+        # self.df_train = self.df_train[['Ticket', 'Survived']]
+
+    def check_if_group_is_4_or_larger(self, ticketNo):
+        if self.v.index[self.v.gt(4)].contains(ticketNo):
+            return 1
         else:
             return -1
+
+    # def check_if_surviving_ticket(self, ticketNo):
+    #     df0 = self.df_train[self.df_train['Ticket'].str.contains(ticketNo)]
+    #     if df0.shape[0]>0:
+    #         return df0.iloc[0]['Survived']
+    #     else:
+    #         return -1
 
 
     ## Assume women and children survived. How accurate is this in the training set?
@@ -57,34 +72,60 @@ class Algo:
     def survival_critera2(self, row):
         ticketNo = row['Ticket']
         ## Check to see if this ticket number is shared by any survivors
-        return self.check_if_surviving_ticket(ticketNo)
+        # return self.check_if_surviving_ticket(ticketNo)
+        return self.check_if_group_is_4_or_larger(ticketNo)
+
+
+    def combine_predictions(self, row):
+        if(row['Survived2']==1):
+            return 0  # Assume all passengers in groups sized four or larger perished
+        else:
+            return row['Survived1']
 
 
     def gen_predictions(self, df, mode):
-        ## Drop all columns but PassengerId, Survived, Pclass, Sex, Age
-        df = df[['PassengerId', 'Pclass', 'Sex', 'Age', 'Fare', 'SibSp', 'Parch', 'Ticket']]
-        df["Survived"] = df.apply(lambda row: self.survival_critera(row), axis=1)
-        print("## First Pass:")
+        ## Drop unneccessary columns
+        if("train"==mode):
+            df = df[['PassengerId', 'Pclass', 'Sex', 'Age', 'Fare', 'SibSp', 'Parch', 'Ticket', 'Survived']]
+        else:
+            df = df[['PassengerId', 'Pclass', 'Sex', 'Age', 'Fare', 'SibSp', 'Parch', 'Ticket']]
+
+        df["Survived1"] = df.apply(lambda row: self.survival_critera(row), axis=1)
+        print("\n## First Pass:")
         print(df.head())
 
         ## Second pass
-        ## If the passenger shares the same ticket number as a survivor, assume their fate was shared
+        ## If the passenger shares the same ticket number as a survivor, predict their fate was shared
         df["Survived2"] = df.apply(lambda row: self.survival_critera2(row), axis=1)
-        print("## Second Pass:")
+        print("\n## Second Pass:")
         print(df.head(20))
 
+        ## Update the predictions based on the new analysis performed in the second pass
+        df["SurvivedCombined"] = df.apply(lambda row: self.combine_predictions(row), axis=1)
+
+
         ## Drop all columns except for PassengerId, Survived
-        df = df[['PassengerId', 'Survived']]
-        print(df.head())
+        df = df[['PassengerId', 'SurvivedCombined']]
+        df.rename(columns={'SurvivedCombined':'Survived'}, inplace=True)
+        print("\n## Combined Final Predictions:")
+        print(df.head(20))
 
         ## Output the predictions to a file
         if("train"==mode):
-            df.to_csv(r'submission-train/train-sub07.csv', index = None, header=True)
+            df.to_csv(r'submission-train/train-sub08.csv', index = None, header=True)
 
             ## Compare the generated training predictions against training answers
             self.run_training_analysis(df)
         else:
-            df.to_csv(r'submission/test-sub07.csv', index = None, header=True)
+            df.to_csv(r'submission/test-sub08.csv', index = None, header=True)
+
+
+        ## Sanity check - Output aggregate totals for survived and died
+        survived = df[df['Survived']==1].shape[0]
+        perished = df[df['Survived']==0].shape[0]
+        print("\n## Sanity Check:")
+        print(f"Survived prediction: {survived}")
+        print(f"Perished prediction: {perished}")
 
 
     def check_accuracy(self, row):
@@ -107,8 +148,9 @@ class Algo:
 
         ## Output df_incorrect predictions to a file
         df_incorrect = answers[answers['Correct']==0]
+        print("\n## Training Analysis:")
         print(df_incorrect.head())
-        df_incorrect.to_csv(r'submission-train/incorrect-sub07.csv', index = None, header=True)
+        df_incorrect.to_csv(r'submission-train/incorrect-sub08.csv', index = None, header=True)
 
         print("*************")
         print(f"Correct Predictions: {no_correct}")
