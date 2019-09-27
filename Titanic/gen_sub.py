@@ -13,12 +13,13 @@ import time
 
 class Algo:
 
-    def __init__(self):
+    def __init__(self, trialNo):
         print("*************** Initializing Constructor! ***************")
         self.SEED = time.time()
         # SEED = 1569450935.079536     # 0.8114478114478114; 723 correct predictions
         # SEED = 1569370095.0708084  # Yields 0.8092 accuracy against training set; 721 correct predictions
         self.CHILD_AGE = 15
+        self.TRIAL_NO = trialNo
 
         ## Build a table of all tickets with FOUR or more passengers. Predict these people all perished
         ## For the 'body of knowledge'-- combine all of the ticket numbers from the training set with the test set
@@ -83,7 +84,7 @@ class Algo:
             return row['Survived1']
 
 
-    def gen_predictions(self, df, mode):
+    def gen_predictions(self, df, mode, trialNo):
         ## Drop unneccessary columns
         if("train"==mode):
             df = df[['PassengerId', 'Pclass', 'Sex', 'Age', 'Fare', 'SibSp', 'Parch', 'Ticket', 'Survived']]
@@ -112,12 +113,12 @@ class Algo:
 
         ## Output the predictions to a file
         if("train"==mode):
-            df.to_csv(r'submission-train/train-sub08.csv', index = None, header=True)
+            df.to_csv(fr'submission-train/train-sub{self.TRIAL_NO}.csv', index = None, header=True)
 
             ## Compare the generated training predictions against training answers
             self.run_training_analysis(df)
         else:
-            df.to_csv(r'submission/test-sub08.csv', index = None, header=True)
+            df.to_csv(fr'submission/test-sub{self.TRIAL_NO}.csv', index = None, header=True)
 
 
         ## Sanity check - Output aggregate totals for survived and died
@@ -150,7 +151,7 @@ class Algo:
         df_incorrect = answers[answers['Correct']==0]
         print("\n## Training Analysis:")
         print(df_incorrect.head())
-        df_incorrect.to_csv(r'submission-train/incorrect-sub08.csv', index = None, header=True)
+        df_incorrect.to_csv(fr'submission-train/incorrect-sub{self.TRIAL_NO}.csv', index = None, header=True)
 
         print("*************")
         print(f"Correct Predictions: {no_correct}")
