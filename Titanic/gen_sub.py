@@ -10,6 +10,7 @@
 import pandas as pd
 import random
 import time
+import datetime
 
 class Algo:
 
@@ -111,22 +112,30 @@ class Algo:
         print("\n## Combined Final Predictions:")
         print(df.head(20))
 
-        ## Output the predictions to a file
-        if("train"==mode):
-            df.to_csv(fr'submission-train/train-sub{self.TRIAL_NO}.csv', index = None, header=True)
-
-            ## Compare the generated training predictions against training answers
-            self.run_training_analysis(df)
-        else:
-            df.to_csv(fr'submission/test-sub{self.TRIAL_NO}.csv', index = None, header=True)
-
-
         ## Sanity check - Output aggregate totals for survived and died
         survived = df[df['Survived']==1].shape[0]
         perished = df[df['Survived']==0].shape[0]
         print("\n## Sanity Check:")
         print(f"Survived prediction: {survived}")
         print(f"Perished prediction: {perished}")
+
+        ## Print this sanity check out to a log file
+        now = datetime.datetime.now()
+        now = now.strftime("%Y-%m-%d__%I.%M %p")
+        d_log = {'Survival Prediction' : survived,
+                 'Perished Prediction' : perished,
+                 'Datetime Run' : now}
+
+        ## Output the predictions to a file
+        if("train"==mode):
+            df.to_csv(fr'submission-train/train-sub{self.TRIAL_NO}.csv', index = None, header=True)
+            d_train_log = self.run_training_analysis(df)
+            d_log = {**d_log, **d_train_log}  # Concat the logging dictionaries
+        else:
+            df.to_csv(fr'submission/test-sub{self.TRIAL_NO}.csv', index = None, header=True)
+
+        df_log = pd.DataFrame(list(d_log.items()))
+        df_log.to_csv(fr'logs/log__{self.TRIAL_NO}__{now}.csv', index = None, header=True)
 
 
     def check_accuracy(self, row):
@@ -136,6 +145,7 @@ class Algo:
             return 0
 
 
+    ## Compare the generated training predictions against training answers
     def run_training_analysis(self, df):
         ## Read the training answers into a df
         answers = pd.read_csv("data/train.csv")
@@ -153,10 +163,17 @@ class Algo:
         print(df_incorrect.head())
         df_incorrect.to_csv(fr'submission-train/incorrect-sub{self.TRIAL_NO}.csv', index = None, header=True)
 
+        d_log = {'Correct Predictions' : no_correct,
+                 'Total Rows' : total,
+                 'Training Accuracy' : accuracy,
+                 'Seed' : self.SEED}
+
         print("*************")
         print(f"Correct Predictions: {no_correct}")
         print(f"Total Rows: {total}")
         print(f"Training Accuracy: {accuracy}")
         print(f"Seed: {self.SEED}\n")
+
+        return d_log
 
     #####################################################################
