@@ -15,8 +15,8 @@ import datetime
 class Algo:
 
     def __init__(self, trialNo):
-        print("*************** Initializing Constructor! ***************")
-        self.SEED = time.time()
+        print("******** Welcome to Robert's Titanic Kaggle Predictor! ********")
+        self.SEED = int(time.time())
         # SEED = 1569450935.079536     # 0.8114478114478114; 723 correct predictions
         # SEED = 1569370095.0708084  # Yields 0.8092 accuracy against training set; 721 correct predictions
         self.CHILD_AGE = 15
@@ -36,11 +36,6 @@ class Algo:
         # self.df_train = self.df_train[self.df_train['Survived']==1]
         # self.df_train = self.df_train[['Ticket', 'Survived']]
 
-    def check_if_group_is_4_or_larger(self, ticketNo):
-        if self.v.index[self.v.gt(4)].contains(ticketNo):
-            return 1
-        else:
-            return -1
 
     # def check_if_surviving_ticket(self, ticketNo):
     #     df0 = self.df_train[self.df_train['Ticket'].str.contains(ticketNo)]
@@ -70,17 +65,22 @@ class Algo:
         else:
             return 0
 
+    ## Predict that all females (adult & children) in groups four or larger with big families (>6) perished
+    def check_if_group_is_4_or_larger(self, row):
+        if (row['Sex']=="female") & (self.v.index[self.v.gt(4)].contains(row['Ticket']) & ((row['SibSp']+row['Parch'])>6)):
+            return 1
+        else:
+            return -1
 
     def survival_critera2(self, row):
-        ticketNo = row['Ticket']
         ## Check to see if this ticket number is shared by any survivors
         # return self.check_if_surviving_ticket(ticketNo)
-        return self.check_if_group_is_4_or_larger(ticketNo)
+        return self.check_if_group_is_4_or_larger(row)
 
 
     def combine_predictions(self, row):
         if(row['Survived2']==1):
-            return 0  # Assume all passengers in groups sized four or larger perished
+            return 0  # Assume women in groups sized four or larger perished
         else:
             return row['Survived1']
 
@@ -124,7 +124,8 @@ class Algo:
         now = now.strftime("%Y-%m-%d__%I.%M %p")
         d_log = {'Survival Prediction' : survived,
                  'Perished Prediction' : perished,
-                 'Datetime Run' : now}
+                 'Datetime Run' : now,
+                 'Seed' : self.SEED}
 
         ## Output the predictions to a file
         if("train"==mode):
@@ -165,8 +166,7 @@ class Algo:
 
         d_log = {'Correct Predictions' : no_correct,
                  'Total Rows' : total,
-                 'Training Accuracy' : accuracy,
-                 'Seed' : self.SEED}
+                 'Training Accuracy' : accuracy}
 
         print("*************")
         print(f"Correct Predictions: {no_correct}")
