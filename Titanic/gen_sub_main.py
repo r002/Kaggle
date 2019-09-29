@@ -4,6 +4,9 @@ import pandas as pd
 print('\nGenerate Submission!')
 
 def gen_training_predictions():
+    print("performing analysis of training data..\n")
+    algo.perform_training_analysis()
+
     print("generating training predictions..\n")
     df = pd.read_csv("data/train.csv")
     algo.gen_predictions(df, "train", trialNo)

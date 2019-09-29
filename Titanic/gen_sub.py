@@ -25,6 +25,8 @@ class Algo:
         ## Build a table of all tickets with FOUR or more passengers. Predict these people all perished
         ## For the 'body of knowledge'-- combine all of the ticket numbers from the training set with the test set
 
+        self.df_train = pd.read_csv("data/train.csv")
+
         df_train_tickets = pd.read_csv("data/train.csv")
         df_train_tickets = df_train_tickets[['Ticket']]
         df_test_tickets = pd.read_csv("data/test.csv")
@@ -137,6 +139,19 @@ class Algo:
 
         df_log = pd.DataFrame(list(d_log.items()))
         df_log.to_csv(fr'logs/log__{self.TRIAL_NO}__{now}.csv', index = None, header=True)
+
+
+    ## This method caluculates correlation coefficients and weights for every column in the training set
+    def perform_training_analysis(self):
+        ## Create a table that lists the correlation coeffients for each column
+        series_survived = self.df_train['Survived']
+        series_sex = self.df_train['Sex']
+        sex = {'male': 1,'female': 0}
+        self.df_train.Sex = [sex[item] for item in self.df_train.Sex]
+        self.df_train.corr(method ='pearson')
+        # corr_sex = # Still need to implement! 9/29/30
+
+        return 1
 
 
     def check_accuracy(self, row):
