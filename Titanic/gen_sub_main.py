@@ -1,4 +1,4 @@
-from gen_sub import Algo
+from algo.BasicAlgo import BasicAlgo
 import pandas as pd
 
 print('\nGenerate Submission!')
@@ -18,6 +18,7 @@ def gen_test_predictions():
 
 def say_hello():
     print(f"hello there! {algo.TRIAL_NO}")
+    # print(f"hello there! {algo.hello_from_basic()}")
 
 def invoke_exit():
     print("Bye!")
@@ -38,7 +39,7 @@ Please enter the trial number:
 trialNo = input(trialNoPrompt)
 print(f"Trial No: {trialNo}")
 
-algo = Algo(trialNo)
+algo = BasicAlgo(trialNo)
 
 # Present an options menu to solicit the user's input
 prompt = """
