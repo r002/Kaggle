@@ -46,11 +46,12 @@ class BaseAlgo:
     #     else:
     #         return -1
 
-
     def gen_predictions(self, df, mode, trialNo):
+        print("**** If this message is being printed, it means this algo is unimplemented.")
+        exit()
 
-        # df = BasicAlgo.gen_predictions(df, mode, trialNo)
 
+    def finalize_predictions(self, df, mode, trialNo):
         ## Drop all columns except for PassengerId, Survived
         df = df[['PassengerId', 'SurvivedCombined']]
         df.rename(columns={'SurvivedCombined':'Survived'}, inplace=True)
@@ -86,15 +87,7 @@ class BaseAlgo:
 
     ## This method caluculates correlation coefficients and weights for every column in the training set
     def perform_training_analysis(self):
-        ## Create a table that lists the correlation coeffients for each column
-        series_survived = self.df_train['Survived']
-        series_sex = self.df_train['Sex']
-        sex = {'male': 1,'female': 0}
-        self.df_train.Sex = [sex[item] for item in self.df_train.Sex]
-        self.df_train.corr(method ='pearson')
-        # corr_sex = # Still need to implement! 9/29/30
-
-        return 1
+        print("**** If this message is being printed, it means this algo performs no training.")
 
 
     def check_accuracy(self, row):

@@ -1,6 +1,8 @@
 ##
 ## This class implements Algo.
-## It is a basic implement with no machine learning.
+## It is a simple implementation with no machine learning.
+## This algo does nothing during its training. It's driven by high-level heuristics
+## I devised when I explored the training data manually.
 ## Date: Sunday - Sep 29, 2019
 ##
 
@@ -8,9 +10,6 @@ from algo.BaseAlgo import BaseAlgo
 import random
 
 class SimpleAlgo(BaseAlgo):
-
-    # def hello_from_basic(self):
-    #     return "Hello from basic algo!"
 
     ## Assume women and children survived. How accurate is this in the training set?
     def survival_critera(self, row):

@@ -1,4 +1,5 @@
 from algo.SimpleAlgo import SimpleAlgo
+from algo.CorrAlgo import CorrAlgo
 import pandas as pd
 
 print('\nGenerate Submission!')
@@ -9,16 +10,17 @@ def gen_training_predictions():
 
     print("generating training predictions..\n")
     df = pd.read_csv("data/train.csv")
-    algo.gen_predictions(df, "train", trialNo)
+    df = algo.gen_predictions(df, "train", trialNo)
+    algo.finalize_predictions(df, "train", trialNo)
 
 def gen_test_predictions():
     print("generating test predictions..\n")
     df = pd.read_csv("data/test.csv")
-    algo.gen_predictions(df, "test", trialNo)
+    df = algo.gen_predictions(df, "test", trialNo)
+    algo.finalize_predictions(df, "test", trialNo)
 
 def say_hello():
     print(f"hello there! {algo.TRIAL_NO}")
-    # print(f"hello there! {algo.hello_from_basic()}")
 
 def invoke_exit():
     print("Bye!")
@@ -39,7 +41,19 @@ Please enter the trial number:
 trialNo = input(trialNoPrompt)
 print(f"Trial No: {trialNo}")
 
-algo = SimpleAlgo(trialNo)
+
+## Ask user to select the algo they desire to use
+algoPrompt = """
+Please select the algo desired:
+1) Simple Algo
+2) Correlation Algo
+"""
+algoSel = input(algoPrompt)
+
+if "1"==algoSel:
+    algo = SimpleAlgo(trialNo)
+elif "2"==algoSel:
+    algo = CorrAlgo(trialNo)
 
 # Present an options menu to solicit the user's input
 prompt = """
