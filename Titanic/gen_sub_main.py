@@ -1,4 +1,4 @@
-from algo.BasicAlgo import BasicAlgo
+from algo.SimpleAlgo import SimpleAlgo
 import pandas as pd
 
 print('\nGenerate Submission!')
@@ -39,7 +39,7 @@ Please enter the trial number:
 trialNo = input(trialNoPrompt)
 print(f"Trial No: {trialNo}")
 
-algo = BasicAlgo(trialNo)
+algo = SimpleAlgo(trialNo)
 
 # Present an options menu to solicit the user's input
 prompt = """

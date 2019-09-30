@@ -7,7 +7,7 @@
 from algo.BaseAlgo import BaseAlgo
 import random
 
-class BasicAlgo(BaseAlgo):
+class SimpleAlgo(BaseAlgo):
 
     # def hello_from_basic(self):
     #     return "Hello from basic algo!"
