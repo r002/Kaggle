@@ -1,2 +1,6 @@
 # Ignore the database config file which holds credentials
 /gettingstarted/settings.py
+
+# Ignore all intermediary Python compilations and objects
+*.pyc
+*.pyo

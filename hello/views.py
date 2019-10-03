@@ -3,7 +3,7 @@ from django.http import HttpResponse
 import requests
 from .models import Greeting
 from .models import Submission
-from CincyAI import test as CAI
+from CincyAI import test_pandas as CAI
 
 # Create your views here.
 def index(request):
@@ -14,7 +14,8 @@ def index(request):
 
 
 def hello(request):
-    return HttpResponse(f"Hello from Cincy AI! | {CAI.aaa}")
+    tp = CAI.TestPandas()
+    return HttpResponse(f"Hello from Cincy AI! | {tp.rows}")
 
 
 def db(request):
