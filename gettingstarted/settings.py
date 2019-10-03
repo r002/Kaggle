@@ -76,15 +76,12 @@ WSGI_APPLICATION = "gettingstarted.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 
-# Django Server admin
-# admin//Iceberg1912!
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'kaggle_development',
         'USER': 'kaggle',
-        'PASSWORD': 'JackRose1912!',
+        'PASSWORD': 'dummypass',
         'HOST': 'localhost',
         'PORT': '',
     }
