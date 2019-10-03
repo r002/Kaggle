@@ -1,0 +1,2 @@
+# Ignore the database config file which holds credentials
+/gettingstarted/settings.py
