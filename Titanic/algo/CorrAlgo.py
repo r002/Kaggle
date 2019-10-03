@@ -17,7 +17,7 @@ class CorrAlgo(BaseAlgo):
 
         series_survived = self.df_train['Survived']
         series_sex = self.df_train['Sex']
-        sex = {'male': 1,'female': 0}
+        sex = {'male': 0,'female': 1}
         self.df_train.Sex = [sex[item] for item in self.df_train.Sex]
         self.df_train.corr(method ='pearson')
         # corr_sex = # Still need to implement! 9/29/30

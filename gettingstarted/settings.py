@@ -84,7 +84,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'kaggle_development',
         'USER': 'kaggle',
-        'PASSWORD': 'dummypass',
+        'PASSWORD': 'JackRose1912!',
         'HOST': 'localhost',
         'PORT': '',
     }

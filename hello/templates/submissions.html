@@ -1,0 +1,17 @@
+{% block content %}
+<div class="container">
+
+  <h2>Submissions</h2>
+
+
+    <ul>
+
+    {% for submission in submissions %}
+        <li>{{submission.title}} | {{submission.submitter}}</li>
+    {% endfor %}
+
+    </ul>
+
+  </div>
+
+{% endblock %}
