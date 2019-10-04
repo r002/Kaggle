@@ -1,0 +1,66 @@
+{% block content %}
+<div class="container">
+
+  <h2>Kaggle | Titanic Challenge<br />Postmortem Report</h2>
+  <a href="https://www.kaggle.com/c/titanic">Kaggle Titanic ML Challenge</a>
+  <br /><br />
+
+  Submitter: <strong>Robert</strong><br />
+  Submission: <strong>[.csv file url goes here]</strong><br />
+  Datetime: <strong>Thu - Oct 3, 2019 - 11:01pm EDT</strong><br />
+  Description: <strong>[These predictions were genereated using
+  Random Forest/SVM/etc. Details go here..]</strong>
+  <br /><br />
+
+  Here is a breakdown of your predictions.
+  <br />
+  <h3>Overall:</h3>
+  <ul>
+    <li>Survived: <strong>{{postmortem.Survived}}</strong></li>
+    <li>Perished: <strong>{{postmortem.Perished}}</strong></li>
+    <li>Survival Probability: <strong>{{postmortem.SurvivalProbability}}%</strong></li>
+  </ul>
+
+  <h3>By Sex:</h3>
+  <ul>
+    <li>Female:</li>
+    <li>Male:</li>
+  </ul>
+
+  <h3>By Passenger Class (pclass):</h3>
+  <ul>
+    <li>First Class:</li>
+    <li>Second Class:</li>
+    <li>Third Class:</li>
+  </ul>
+
+  <h3>By Age Bins:</h3>
+  <ul>
+    <li>0-15:</li>
+    <li>16-30:</li>
+    <li>31-45:</li>
+    <li>46-60:</li>
+    <li>61-80:</li>
+  </ul>
+
+  <h3>By Passenger Class + Sex:</h3>
+  <ul>
+    <li>First Class:</li>
+    <ul>
+      <li>Female:</li>
+      <li>Male:</li>
+    </ul>
+    <li>Second Class:</li>
+    <ul>
+      <li>Female:</li>
+      <li>Male:</li>
+    </ul>
+    <li>Third Class:</li>
+    <ul>
+      <li>Female:</li>
+      <li>Male:</li>
+    </ul>
+  </ul>
+
+</div>
+{% endblock %}

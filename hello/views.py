@@ -3,7 +3,7 @@ from django.http import HttpResponse
 import requests
 from .models import Greeting
 from .models import Submission
-from CincyAI import test_pandas as CAI
+from CincyAI.titanic import Postmortem
 
 # Create your views here.
 def index(request):
@@ -13,9 +13,9 @@ def index(request):
 #     return render(request, "index.html")
 
 
-def hello(request):
-    tp = CAI.TestPandas()
-    return HttpResponse(f"Hello from Cincy AI! | {tp.rows}")
+def postmortem(request):
+    postmortem = Postmortem()
+    return render(request, "postmortem.html", {"postmortem": postmortem})
 
 
 def db(request):
