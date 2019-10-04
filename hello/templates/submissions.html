@@ -2,16 +2,16 @@
 <div class="container">
 
   <h2>Submissions</h2>
+  <ul>
 
+  {% for submission in submissions %}
+      <li>
+        {{submission.id}} | {{submission.title}} | {{submission.submitter}}<br />
+        Datetime: {{submission.published}}<br />
+        {{submission.predictions}}
+      </li>
+  {% endfor %}
 
-    <ul>
-
-    {% for submission in submissions %}
-        <li>{{submission.title}} | {{submission.submitter}}</li>
-    {% endfor %}
-
-    </ul>
-
-  </div>
-
+  </ul>
+</div>
 {% endblock %}

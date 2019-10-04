@@ -20,4 +20,5 @@ urlpatterns = [
     path("postmortem/", hello.views.postmortem, name="postmortem"),
     path("db/", hello.views.db, name="db"),
     path("admin/", admin.site.urls),
+    path('upload_csv/', hello.views.upload_csv, name='upload_csv'),
 ]
