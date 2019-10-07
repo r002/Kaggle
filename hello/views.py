@@ -10,7 +10,7 @@ from CincyAI.titanic import Postmortem
 
 # Create your views here.
 def index(request):
-    return HttpResponse('Hello CincyAI!')
+    return render(request, "home.html")
 # def index(request):
 #     # return HttpResponse('Hello from Python!')
 #     return render(request, "index.html")
