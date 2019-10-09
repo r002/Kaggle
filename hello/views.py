@@ -16,11 +16,6 @@ def index(request):
 #     return render(request, "index.html")
 
 
-def postmortem(request):
-    postmortem = Postmortem()
-    return render(request, "postmortem.html", {"postmortem": postmortem})
-
-
 def db(request):
     greeting = Greeting()
     greeting.save()
@@ -37,6 +32,23 @@ def submissions(request):
     # submission.save()
     submissions = Submission.objects.all()
     return render(request, "submissions.html", {"submissions": submissions})
+
+
+def postmortem(request):
+    # Get the submission from the database
+
+    postmortem = Postmortem()
+
+    return render(request, "postmortem.html", {"postmortem": postmortem})
+
+
+def build_postmortem(request, submission):
+    # Get the submission from the database
+
+    postmortem = Postmortem()
+    postmortem.id = submission.id
+
+    return render(request, "postmortem.html", {"postmortem": postmortem})
 
 
 def upload_csv(request):
@@ -69,7 +81,7 @@ def upload_csv(request):
         submission.description = "Test description"
         submission.predictions = file_data
         submission.save()
-        return redirect("/submissions")
+        return build_postmortem(request, submission)
 
     except Exception as e:
         print(f"Failed upload! {e}")
