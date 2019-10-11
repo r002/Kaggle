@@ -5,21 +5,21 @@
   <a href="https://www.kaggle.com/c/titanic">Kaggle Titanic ML Challenge</a>
   <br /><br />
 
-  Id: <strong>{{postmortem.id}}</strong><br />
-  Submitter: <strong>Robert</strong><br />
-  Submission: <strong>[.csv file url goes here]</strong><br />
-  Datetime: <strong>Thu - Oct 3, 2019 - 11:01pm EDT</strong><br />
-  Description: <strong>[These predictions were genereated using
-  Random Forest/SVM/etc. Details go here..]</strong>
+  Id: <strong>{{p.id}}</strong><br />
+  Title: <strong>{{p.title}}</strong><br />
+  Submitter: <strong>{{p.submitter}}</strong><br />
+  Predictions: <strong>{{p.predictions}}</strong><br />
+  Datetime: <strong>{{p.published}}</strong><br />
+  Description: <strong>{{p.description}}</strong>
   <br /><br />
 
   Here is a breakdown of your predictions.
   <br />
   <h3>Overall:</h3>
   <ul>
-    <li>Survived: <strong>{{postmortem.Survived}}</strong></li>
-    <li>Perished: <strong>{{postmortem.Perished}}</strong></li>
-    <li>Survival Probability: <strong>{{postmortem.SurvivalProbability}}%</strong></li>
+    <li>Survived: <strong>{{p.Survived}}</strong></li>
+    <li>Perished: <strong>{{p.Perished}}</strong></li>
+    <li>Survival Probability: <strong>{{p.SurvivalProbability}}%</strong></li>
   </ul>
 
   <h3>By Sex:</h3>

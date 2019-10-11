@@ -6,14 +6,6 @@ import requests
 import re
 from .models import Greeting
 from .models import Submission
-from CincyAI.titanic import Postmortem
-
-# Create your views here.
-def index(request):
-    return render(request, "home.html")
-# def index(request):
-#     # return HttpResponse('Hello from Python!')
-#     return render(request, "index.html")
 
 
 def db(request):
@@ -32,14 +24,6 @@ def submissions(request):
     # submission.save()
     submissions = Submission.objects.all()
     return render(request, "submissions.html", {"submissions": submissions})
-
-
-def postmortem(request):
-    # Get the submission from the database
-
-    postmortem = Postmortem()
-
-    return render(request, "postmortem.html", {"postmortem": postmortem})
 
 
 def build_postmortem(request, submission):
