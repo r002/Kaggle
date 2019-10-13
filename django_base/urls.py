@@ -4,9 +4,9 @@ from django.contrib import admin
 
 admin.autodiscover()
 
-import hello.views
-import hello.controllers.home_controller
-import hello.controllers.postmortem_controller
+import titanic.views
+import titanic.controllers.home_controller
+import titanic.controllers.postmortem_controller
 
 # To add a new path, first import the app:
 # import blog
@@ -17,10 +17,10 @@ import hello.controllers.postmortem_controller
 # Learn more here: https://docs.djangoproject.com/en/2.1/topics/http/urls/
 
 urlpatterns = [
-    path("", hello.controllers.home_controller.index, name="index"),
-    path("postmortem/<int:id>", hello.controllers.postmortem_controller.postmortem, name="postmortem"),
-    path("submissions/", hello.views.submissions, name="submissions"),
-    path("db/", hello.views.db, name="db"),
+    path("", titanic.controllers.home_controller.index, name="index"),
+    path("postmortem/<int:id>", titanic.controllers.postmortem_controller.postmortem, name="postmortem"),
+    path("submissions/", titanic.views.submissions, name="submissions"),
+    path("db/", titanic.views.db, name="db"),
     path("admin/", admin.site.urls),
-    path('upload_csv/', hello.views.upload_csv, name='upload_csv'),
+    path('upload_csv/', titanic.views.upload_csv, name='upload_csv'),
 ]

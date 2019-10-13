@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from hello.models import Submission
+from titanic.models import Submission
 from CincyAI.titanic import Postmortem
 
 def postmortem(request, id):

@@ -6,6 +6,7 @@ import requests
 import re
 from .models import Greeting
 from .models import Submission
+import titanic.controllers.postmortem_controller as pc
 
 
 def db(request):
@@ -24,15 +25,6 @@ def submissions(request):
     # submission.save()
     submissions = Submission.objects.all()
     return render(request, "submissions.html", {"submissions": submissions})
-
-
-def build_postmortem(request, submission):
-    # Get the submission from the database
-
-    postmortem = Postmortem()
-    postmortem.id = submission.id
-
-    return render(request, "postmortem.html", {"postmortem": postmortem})
 
 
 def upload_csv(request):
@@ -59,13 +51,14 @@ def upload_csv(request):
         if ";"==file_data[-1]:
             file_data = file_data[:-1]
 
-        submission = Submission()
-        submission.title = "Test Sub Title"
-        submission.submitter = "Robert"
-        submission.description = "Test description"
-        submission.predictions = file_data
-        submission.save()
-        return build_postmortem(request, submission)
+        s = Submission()
+        s.title = "Test Sub Title"
+        s.submitter = "Robert"
+        s.description = "Test description"
+        s.predictions = file_data
+        s.save()
+
+        return pc.postmortem(request, s.id)
 
     except Exception as e:
         print(f"Failed upload! {e}")

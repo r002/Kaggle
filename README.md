@@ -1,8 +1,10 @@
-heroku local web -f Procfile.windows
-python manage.py runserver 127.0.0.1:1337
+```sh
+$ heroku local web -f Procfile.windows
+$ python manage.py runserver 127.0.0.1:1337
 
-git update-index --assume-unchanged django_base/settings.py
-git update-index --skip-worktree django_base/settings.py
+$ git update-index --assume-unchanged django_base/settings.py
+$ git update-index --skip-worktree django_base/settings.py
+```
 
 # Python: Getting Started
 

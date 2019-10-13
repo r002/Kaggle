@@ -1,5 +1,5 @@
 # Ignore the database config file which holds credentials
-/django_base/settings.py
+#/django_base/settings.py
 
 # Ignore all intermediary Python compilations and objects
 *.pyc
